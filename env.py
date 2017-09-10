@@ -55,10 +55,13 @@ class Env(object):
 		grid[cood[0]][cood[1]] = TILE_CLEAN
 
 
-	def tileQuery(self, cood, *args):
+	def tileQuery(self, *args):
 		if args:
-			grid = args[0]
-		else:
-			grid = self.grid
+			cood = args[0]
+			if cood[0] in range[0,dim[0]] and cood[1] in range[0,dim[1]]:
+				return grid[cood[0]][cood[1]]
+			else:
+				return OUT_OF_BOUND
 
-		return grid[dim[0]][dim[1]]
+		else:
+			return self.grid
