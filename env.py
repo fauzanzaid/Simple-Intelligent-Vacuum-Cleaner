@@ -7,6 +7,7 @@ class Env(object):
 
 	TILE_DIRTY = 1
 	TILE_CLEAN = 0
+	OUT_OF_BOUND = -1
 
 	def __init__(self, dim, dirtRatio):
 		"""
@@ -54,10 +55,10 @@ class Env(object):
 		grid[cood[0]][cood[1]] = TILE_CLEAN
 
 
-	def dirtCheck(self, cood, *args):
+	def tileQuery(self, cood, *args):
 		if args:
 			grid = args[0]
 		else:
 			grid = self.grid
 
-		return grid[dim[0]][dim[1]] == TILE_DIRTY
+		return grid[dim[0]][dim[1]]
