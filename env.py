@@ -37,7 +37,6 @@ class Env(object):
 			self.dirtAdd(cood, grid)
 
 
-
 	def dirtAdd(self, cood, *args):
 		if args:
 			grid = args[0]
