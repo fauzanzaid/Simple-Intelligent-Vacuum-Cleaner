@@ -2,12 +2,15 @@
 
 import random
 
+class TileState(object):
+	UNKNOWN = -1
+	CLEAN = 0
+	DIRTY = 1
+	OUT_OF_BOUND = -2
+
+
 class Env(object):
 	"""docstring for Env"""
-
-	TILE_DIRTY = 1
-	TILE_CLEAN = 0
-	OUT_OF_BOUND = -1
 
 	def __init__(self, dim, dirtRatio):
 		"""
@@ -23,7 +26,7 @@ class Env(object):
 
 
 	def gridCreate(self, dim):
-		self.grid = [ [TILE_CLEAN]*dim[1] for i in xrange(dim[0]) ]
+		self.grid = [ [TileState.CLEAN]*dim[1] for i in xrange(dim[0]) ]
 
 
 	def dirtAddRand(self, dirtRatio, grid):
@@ -43,7 +46,7 @@ class Env(object):
 			grid = args[0]
 		else:
 			grid = self.grid
-		grid[cood[0]][cood[1]] = TILE_DIRTY
+		grid[cood[0]][cood[1]] = TileState.DIRTY
 
 
 	def dirtRemove(self, cood, *args):
@@ -52,7 +55,7 @@ class Env(object):
 		else:
 			grid = self.grid
 
-		grid[cood[0]][cood[1]] = TILE_CLEAN
+		grid[cood[0]][cood[1]] = TileState.CLEAN
 
 
 	def tileQuery(self, *args):
@@ -61,7 +64,7 @@ class Env(object):
 			if cood[0] in range[0,dim[0]] and cood[1] in range[0,dim[1]]:
 				return grid[cood[0]][cood[1]]
 			else:
-				return OUT_OF_BOUND
+				return TileState.OUT_OF_BOUND
 
 		else:
 			return self.grid
