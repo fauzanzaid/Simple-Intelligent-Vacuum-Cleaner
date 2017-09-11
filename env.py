@@ -67,4 +67,4 @@ class Env(object):
 				return TileState.OUT_OF_BOUND
 
 		else:
-			return self.grid
+			return [row[:] for row in self.grid]
