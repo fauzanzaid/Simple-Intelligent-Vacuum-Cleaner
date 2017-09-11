@@ -129,5 +129,5 @@ class IVC(object):
 
 
 	def run(self):
-		while goalTest() == False:
-			self.act(controller.output(self.mem, self.pos))
+		while self.goalTest() == False:
+			self.act(self.controller.output(self.mem, self.pos))
