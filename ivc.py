@@ -72,6 +72,7 @@ class IVC(object):
 	def actMoveUp(self, env, pos):
 		if pos[0]-1 in xrange(0,env.dim[0]):
 			pos[0] -= 1
+			self.cost += IVCActionCost.MOVE_UP
 		else:
 			raise IndexError("IVC:"+self.name+" cannot climb walls")
 
@@ -79,6 +80,7 @@ class IVC(object):
 	def actMoveDown(self, env, pos):
 		if pos[0]+1 in xrange(0,env.dim[0]):
 			pos[0] += 1
+			self.cost += IVCActionCost.MOVE_DOWN
 		else:
 			raise IndexError("IVC:"+self.name+" cannot climb walls")
 
@@ -86,6 +88,7 @@ class IVC(object):
 	def actMoveLeft(self, env, pos):
 		if pos[1]-1 in xrange(0,env.dim[1]):
 			pos[1] -= 1
+			self.cost += IVCActionCost.MOVE_LEFT
 		else:
 			raise IndexError("IVC:"+self.name+" cannot climb walls")
 
@@ -93,11 +96,13 @@ class IVC(object):
 	def actMoveRight(self, env, pos):
 		if pos[1]+1 in xrange(0,env.dim[1]):
 			pos[1] += 1
+			self.cost += IVCActionCost.MOVE_RIGHT
 		else:
 			raise IndexError("IVC:"+self.name+" cannot climb walls")
 
 
 	def actSuck(self, env, pos):
+		self.cost += IVCActionCost.SUCK
 		env.dirtRemove(pos)
 
 
@@ -107,23 +112,18 @@ class IVC(object):
 
 			if action == IVCAction.SUCK:
 				self.actSuck(self.env, self.pos)
-				self.cost += IVCActionCost.SUCK
 
 			elif action == IVCAction.MOVE_UP:
 				self.actMoveUp(self.env, self.pos)
-				self.cost += IVCActionCost.MOVE_UP
 			
 			elif action == IVCAction.MOVE_DOWN:
 				self.actMoveDown(self.env, self.pos)
-				self.cost += IVCActionCost.MOVE_DOWN
 			
 			elif action == IVCAction.MOVE_LEFT:
 				self.actMoveLeft(self.env, self.pos)
-				self.cost += IVCActionCost.MOVE_LEFT
 
 			elif action == IVCAction.MOVE_RIGHT:
 				self.actMoveRight(self.env, self.pos)
-				self.cost += IVCActionCost.MOVE_RIGHT
 
 		self.perceive(self.env, self.pos)
 
