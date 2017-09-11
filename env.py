@@ -61,8 +61,8 @@ class Env(object):
 	def tileQuery(self, *args):
 		if args:
 			cood = args[0]
-			if cood[0] in range[0,dim[0]] and cood[1] in range[0,dim[1]]:
-				return grid[cood[0]][cood[1]]
+			if cood[0] in xrange(0,self.dim[0]) and cood[1] in xrange(0,self.dim[1]):
+				return self.grid[cood[0]][cood[1]]
 			else:
 				return TileState.OUT_OF_BOUND
 
