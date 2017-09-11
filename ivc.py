@@ -18,10 +18,23 @@ class IVCActionCost(object):
 
 class IVC(object):
 
-	def __init__(self, env, pos):
+	def __init__(self, env, controller, pos):
 		self.env = env
 		self.pos = [i for i in pos]
+		self.controller = controller
 
 
 	def memInit(self, env):
 		self.mem = [ [TileState.UNKNOWN]*env.dim[1] for i in xrange(env.dim[0]) ]
+
+
+	def goalTest(self):
+		pass
+
+
+	def act(self, actions):
+		pass
+
+
+	def run(self):
+		pass
