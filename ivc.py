@@ -42,6 +42,10 @@ class IVC(object):
 		pass
 
 
+	def perceive(self):
+		pass
+
+
 	def act(self, actions):
 		pass
 
