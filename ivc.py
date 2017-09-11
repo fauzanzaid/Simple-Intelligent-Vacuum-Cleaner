@@ -36,6 +36,7 @@ class IVC(object):
 		self.visibility = visibility
 
 		self.queryNum = 0
+		self.perceive()
 
 
 	def memInit(self, env):
@@ -100,7 +101,7 @@ class IVC(object):
 
 
 	def act(self, actions):
-		pass
+		
 
 
 	def run(self):
