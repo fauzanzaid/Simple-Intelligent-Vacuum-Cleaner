@@ -30,7 +30,7 @@ class IVC(object):
 
 	def __init__(self, env, controller, pos, visibility):
 		self.env = env
-		self.pos = [i for i in pos]
+		self.pos = pos[:]
 		self.controller = controller
 		self.visibility = visibility
 
@@ -42,7 +42,16 @@ class IVC(object):
 
 
 	def goalTest(self):
-		pass
+		if pos not in self.controller.homes:
+			return False
+
+		for row in self.mem:
+			for tile in row:
+				if tile == TileState.UNKNOWN or tile == TileState.DIRTY:
+					return False
+
+		return True
+
 
 
 	def perceive(self):
