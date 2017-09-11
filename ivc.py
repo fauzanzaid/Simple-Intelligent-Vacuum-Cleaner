@@ -35,6 +35,7 @@ class IVC(object):
 		self.controller = controller
 		self.visibility = visibility
 
+		self.cost = 0
 		self.memInit(self.env)
 		self.perceive(self.env, self.pos)
 
@@ -98,26 +99,31 @@ class IVC(object):
 		env.dirtRemove(pos)
 
 
-	def act(self, actions):
+	def act(self, actions, cost):
 		for action in actions:
 			if action == IVCAction.SUCK:
 				self.actSuck(self.env, self.pos)
+				cost += IVCActionCost.SUCK
 
 			elif action == IVCAction.MOVE_UP:
 				self.actMoveUp(self.env, self.pos)
+				cost += IVCActionCost.MOVE_UP
 			
 			elif action == IVCAction.MOVE_DOWN:
 				self.actMoveDown(self.env, self.pos)
+				cost += IVCActionCost.MOVE_DOWN
 			
 			elif action == IVCAction.MOVE_LEFT:
 				self.actMoveLeft(self.env, self.pos)
-			
+				cost += IVCActionCost.MOVE_LEFT
+
 			elif action == IVCAction.MOVE_RIGHT:
 				self.actMoveRight(self.env, self.pos)
+				cost += IVCActionCost.MOVE_RIGHT
 
 		perceive(self.env, self.pos)
 
 
 	def run(self):
 		while goalTest == False:
-			self.act(controller.output(self.env, self.pos))
+			self.act(controller.output(self.env, self.pos), self.cost)
