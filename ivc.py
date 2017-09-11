@@ -130,4 +130,4 @@ class IVC(object):
 
 	def run(self):
 		while goalTest() == False:
-			self.act(controller.output(self.env, self.pos))
+			self.act(controller.output(self.mem, self.pos))
