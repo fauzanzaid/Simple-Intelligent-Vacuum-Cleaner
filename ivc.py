@@ -36,7 +36,9 @@ class IVC(object):
 		self.visibility = visibility
 
 		self.queryNum = 0
-		self.perceive()
+
+		self.memInit(self.env)
+		self.perceive(self.env, self.pos)
 
 
 	def memInit(self, env):
@@ -55,17 +57,17 @@ class IVC(object):
 		return True
 
 
-	def perceive(self):
+	def perceive(self, env, pos):
 		if self.visibility == IVCVisibility.ALL:
 			if queryNum == 0:	# need to make only one query if ALL
-				self.mem = self.env.tileQuery()
+				self.mem = env.tileQuery()
 				queryNum += 1
 
 		elif self.visibility == IVCVisibility.ONE:
 			for cood0 in xrange(pos[0]-1, pos[0]+2):
 				for cood1 in xrange(pos[1]-1, pos[2]+2):
 					if cood0 in xrange[0,dim[0]] and cood1 in xrange[0,dim[1]]:
-						self.mem[cood0,cood1] = self.env.tileQuery([cood0,cood1])
+						self.mem[cood0,cood1] = env.tileQuery([cood0,cood1])
 
 
 	def actMoveUp(self, env):
