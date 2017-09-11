@@ -28,7 +28,8 @@ class IVCVisibility(object):
 
 class IVC(object):
 
-	def __init__(self, env, controller, pos, visibility):
+	def __init__(self, name, env, controller, pos, visibility):
+		self.name = name
 		self.env = env
 		self.pos = pos[:]
 		self.controller = controller
@@ -53,18 +54,49 @@ class IVC(object):
 		return True
 
 
-
 	def perceive(self):
 		if self.visibility == IVCVisibility.ALL:
-			if queryNum == 0:
+			if queryNum == 0:	# need to make only one query if ALL
 				self.mem = self.env.tileQuery()
 				queryNum += 1
 
 		elif self.visibility == IVCVisibility.ONE:
 			for cood0 in xrange(pos[0]-1, pos[0]+2):
 				for cood1 in xrange(pos[1]-1, pos[2]+2):
-					if cood0 in range[0,dim[0]] and cood1 in range[0,dim[1]]:
+					if cood0 in xrange[0,dim[0]] and cood1 in xrange[0,dim[1]]:
 						self.mem[cood0,cood1] = self.env.tileQuery([cood0,cood1])
+
+
+	def actMoveUp(self, env):
+		if self.pos[0]-1 in xrange[0,dim[0]]:
+			pos[0] -= 1
+		else:
+			raise IndexError("IVC:"name" cannot climb walls")
+
+
+	def actMoveDown(self, env):
+		if self.pos[0]+1 in xrange[0,dim[0]]:
+			pos[0] += 1
+		else:
+			raise IndexError("IVC:"name" cannot climb walls")
+
+
+	def actMoveLeft(self, env):
+		if self.pos[1]-1 in xrange[0,dim[1]]:
+			pos[1] -= 1
+		else:
+			raise IndexError("IVC:"name" cannot climb walls")
+
+
+	def actMoveRight(self, env):
+		if self.pos[1]+1 in xrange[0,dim[1]]:
+			pos[1] += 1
+		else:
+			raise IndexError("IVC:"name" cannot climb walls")
+
+
+	def actSuck(self, env):
+		pass
 
 
 	def act(self, actions):
