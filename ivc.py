@@ -28,10 +28,13 @@ class IVCVisibility(object):
 
 class IVC(object):
 
-	def __init__(self, env, controller, pos):
+	def __init__(self, env, controller, pos, visibility):
 		self.env = env
 		self.pos = [i for i in pos]
 		self.controller = controller
+		self.visibility = visibility
+
+		self.queryNum = 0
 
 
 	def memInit(self, env):
@@ -43,7 +46,16 @@ class IVC(object):
 
 
 	def perceive(self):
-		pass
+		if self.visibility == IVCVisibility.ALL:
+			if queryNum == 0:
+				self.mem = self.env.tileQuery()
+				queryNum += 1
+
+		elif self.visibility == IVCVisibility.ONE:
+			for cood0 in xrange(pos[0]-1, pos[0]+2):
+				for cood1 in xrange(pos[1]-1, pos[2]+2):
+					if cood0 in range[0,dim[0]] and cood1 in range[0,dim[1]]:
+						self.mem[cood0,cood1] = self.env.tileQuery([cood0,cood1])
 
 
 	def act(self, actions):
