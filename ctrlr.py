@@ -7,5 +7,5 @@ class Controller(object):
 		self.homes = [home[:] for home in  homes]
 
 	
-	def output(self, env, pos):
+	def output(self, grid, pos):
 		raise NotImplementedError()
