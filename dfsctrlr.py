@@ -4,6 +4,5 @@ from ctrlr import Controller
 
 class DFSController(Controller):
 
-	def __init__(self, homes):
-		super(DFSController, self).__init__(homes)
-		
+	def __init__(self, dim, homes):
+		super(DFSController, self).__init__(dim, homes)

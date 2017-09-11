@@ -2,7 +2,8 @@
 
 class Controller(object):
 
-	def __init__(self, homes):
+	def __init__(self, dim, homes):
+		self.dim = dim[:]
 		self.homes = [home[:] for home in  homes]
 
 	
