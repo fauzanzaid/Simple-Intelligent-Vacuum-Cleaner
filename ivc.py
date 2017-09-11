@@ -96,7 +96,7 @@ class IVC(object):
 
 
 	def actSuck(self, env):
-		pass
+		self.env.dirtRemove(pos)
 
 
 	def act(self, actions):
