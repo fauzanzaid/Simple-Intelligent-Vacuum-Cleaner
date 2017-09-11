@@ -2,6 +2,7 @@
 
 from ctrlr import Controller
 from env import TileState
+from ivc import IVCAction
 
 class DFSController(Controller):
 
@@ -17,9 +18,11 @@ class DFSController(Controller):
 				if tile == TileState.DIRTY:
 					dirtTiles.append([i,j])
 
-		pathShort = []
-		print self.dfs(dirtTiles, pos, pathShort, 0)
-		print "Path:", pathShort
+		path = []
+		cost = self.dfs(dirtTiles, pos, path, 0)
+
+		actions = self.pathToActions(pos, path)
+		return actions
 
 
 	def costMove(self, pos1, pos2):
@@ -27,7 +30,6 @@ class DFSController(Controller):
 
 
 	def dfs(self, dirtTiles, pos, path, cost):
-		# print "dirtTiles: ",dirtTiles
 		if len(dirtTiles) == 0:
 			cur = self.homes[0][:]
 
@@ -36,9 +38,6 @@ class DFSController(Controller):
 					cur = home[:]
 
 			path.append(cur)
-
-			# print "\t", path, cost+self.costMove(cur, pos)
-
 			return cost+self.costMove(cur, pos)
 
 		else:
@@ -48,23 +47,44 @@ class DFSController(Controller):
 				dirtTilesNew = dirtTiles[:i]+dirtTiles[i+1:]
 
 				pathNew = path[:]
-				# print "Pre: ",pathNew
 				pathNew.append(dirtTile)
-				# print "Mid: ",pathNew
 				costNew = self.dfs(dirtTilesNew, dirtTile, pathNew, cost+self.costMove(pos,dirtTile))
-				# print "Post:",pathNew
 				costs.append(costNew)
 				paths.append(pathNew)
 
 			minCost = min(costs)
 			pathChoice = paths[costs.index(minCost)]
-			# print "Choice: ",pathChoice
 
 			path[:] = []
 			path.extend(pathChoice)
-			# print "Pre2",path
-			# print "Costs:",costs, "Tiles:",dirtTiles
-
-			# path.append(tileChoice)
-			# print "Post2:",path
 			return minCost
+
+
+	def pathToActions(self, pos, path):
+		actions = []
+		pos = pos[:]
+
+		for tile in path:
+			disp = [tile[0]-pos[0], tile[1]-pos[1]]
+
+			if disp[0] < 0:
+				for i in range(-disp[0]):
+					actions.append(IVCAction.MOVE_UP)
+			elif disp[0] > 0:
+				for i in range(disp[0]):
+					actions.append(IVCAction.MOVE_DOWN)
+
+			if disp[1] < 0:
+				for i in range(-disp[1]):
+					actions.append(IVCAction.MOVE_LEFT)
+			elif disp[1] > 0:
+				for i in range(disp[1]):
+					actions.append(IVCAction.MOVE_RIGHT)
+
+			pos[0] = tile[0]
+			pos[1] = tile[1]
+
+			actions.append(IVCAction.SUCK)
+
+		actions.pop()	# Remove last suck, not needed
+		return actions
