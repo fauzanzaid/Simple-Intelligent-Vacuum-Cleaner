@@ -102,7 +102,6 @@ class IVC(object):
 		for action in actions:
 			if action == IVCAction.SUCK:
 				self.actSuck(self.env, self.pos)
-				perceive(self.env, self.pos)
 
 			elif action == IVCAction.MOVE_UP:
 				self.actMoveUp(self.env, self.pos)
@@ -116,6 +115,9 @@ class IVC(object):
 			elif action == IVCAction.MOVE_RIGHT:
 				self.actMoveRight(self.env, self.pos)
 
+		perceive(self.env, self.pos)
+
 
 	def run(self):
-		pass
+		while goalTest == False:
+			self.act(controller.output(self.env, self.pos))
