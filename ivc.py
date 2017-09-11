@@ -9,12 +9,22 @@ class IVCAction(object):
 	L = 3
 	R = 4
 
+
+
 class IVCActionCost(object):
 	SUCK = 1
 	U = 2
 	D = 2
 	L = 2
 	R = 2
+
+
+
+class IVCVisibility(object):
+	ALL = -1
+	ONE = 1
+
+
 
 class IVC(object):
 
