@@ -4,19 +4,19 @@ from env import Env, TileState
 
 class IVCAction(object):
 	SUCK = 0
-	U = 1
-	D = 2
-	L = 3
-	R = 4
+	MOVE_UP = 1
+	MOVE_DOWN = 2
+	MOVE_LEFT = 3
+	MOVE_RIGHT = 4
 
 
 
 class IVCActionCost(object):
 	SUCK = 1
-	U = 2
-	D = 2
-	L = 2
-	R = 2
+	MOVE_UP = 2
+	MOVE_DOWN = 2
+	MOVE_LEFT = 2
+	MOVE_RIGHT = 2
 
 
 
@@ -34,8 +34,6 @@ class IVC(object):
 		self.pos = pos[:]
 		self.controller = controller
 		self.visibility = visibility
-
-		self.queryNum = 0
 
 		self.memInit(self.env)
 		self.perceive(self.env, self.pos)
@@ -59,9 +57,7 @@ class IVC(object):
 
 	def perceive(self, env, pos):
 		if self.visibility == IVCVisibility.ALL:
-			if queryNum == 0:	# need to make only one query if ALL
-				self.mem = env.tileQuery()
-				queryNum += 1
+			self.mem = env.tileQuery()
 
 		elif self.visibility == IVCVisibility.ONE:
 			for cood0 in xrange(pos[0]-1, pos[0]+2):
@@ -70,40 +66,55 @@ class IVC(object):
 						self.mem[cood0,cood1] = env.tileQuery([cood0,cood1])
 
 
-	def actMoveUp(self, env):
-		if self.pos[0]-1 in xrange[0,dim[0]]:
+	def actMoveUp(self, env, pos):
+		if pos[0]-1 in xrange[0,env.dim[0]]:
 			pos[0] -= 1
 		else:
 			raise IndexError("IVC:"name" cannot climb walls")
 
 
-	def actMoveDown(self, env):
-		if self.pos[0]+1 in xrange[0,dim[0]]:
+	def actMoveDown(self, env, pos):
+		if pos[0]+1 in xrange[0,env.dim[0]]:
 			pos[0] += 1
 		else:
 			raise IndexError("IVC:"name" cannot climb walls")
 
 
-	def actMoveLeft(self, env):
-		if self.pos[1]-1 in xrange[0,dim[1]]:
+	def actMoveLeft(self, env, pos):
+		if pos[1]-1 in xrange[0,env.dim[1]]:
 			pos[1] -= 1
 		else:
 			raise IndexError("IVC:"name" cannot climb walls")
 
 
-	def actMoveRight(self, env):
-		if self.pos[1]+1 in xrange[0,dim[1]]:
+	def actMoveRight(self, env, pos):
+		if pos[1]+1 in xrange[0,env.dim[1]]:
 			pos[1] += 1
 		else:
 			raise IndexError("IVC:"name" cannot climb walls")
 
 
-	def actSuck(self, env):
-		self.env.dirtRemove(pos)
+	def actSuck(self, env, pos):
+		env.dirtRemove(pos)
 
 
 	def act(self, actions):
-		
+		for action in actions:
+			if action == IVCAction.SUCK:
+				self.actSuck(self.env, self.pos)
+				perceive(self.env, self.pos)
+
+			elif action == IVCAction.MOVE_UP:
+				self.actMoveUp(self.env, self.pos)
+			
+			elif action == IVCAction.MOVE_DOWN:
+				self.actMoveDown(self.env, self.pos)
+			
+			elif action == IVCAction.MOVE_LEFT:
+				self.actMoveLeft(self.env, self.pos)
+			
+			elif action == IVCAction.MOVE_RIGHT:
+				self.actMoveRight(self.env, self.pos)
 
 
 	def run(self):
