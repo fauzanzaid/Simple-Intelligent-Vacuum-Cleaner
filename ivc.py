@@ -3,11 +3,13 @@
 from env import Env, TileState
 
 class IVCAction(object):
+	ABORT = -1
 	SUCK = 0
 	MOVE_UP = 1
 	MOVE_DOWN = 2
 	MOVE_LEFT = 3
 	MOVE_RIGHT = 4
+	REST = 5
 
 
 
