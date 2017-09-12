@@ -41,7 +41,7 @@ class Controller(object):
 
 
 	def goalTest(self, grid, pos):
-		return self.cleanTest(grid) and self.homeTest(pos)
+		raise NotImplementedError()
 
 
 	def output(self, grid, pos):
