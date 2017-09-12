@@ -1,5 +1,7 @@
 #! /usr/bin/python2
 
+from env import TileState
+
 class Controller(object):
 
 	def __init__(self, dim, homes):
@@ -23,6 +25,24 @@ class Controller(object):
 
 				self.homeDist[i][j] = minCost
 
-	
+
+	def cleanTest(self, grid):
+		for row in grid:
+			for tile in row:
+				if tile == TileState.UNKNOWN or tile == TileState.DIRTY:
+					return False
+		return True
+
+
+	def homeTest(self, pos):
+		if pos not in self.homes:
+			return False
+		return True
+
+
+	def goalTest(self, grid, pos):
+		return self.cleanTest(grid) and self.homeTest(pos)
+
+
 	def output(self, grid, pos):
 		raise NotImplementedError()
