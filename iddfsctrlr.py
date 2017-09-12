@@ -22,6 +22,10 @@ class IDDFSController(Controller):
 
 		path = [pos]
 		path = self.iddfs(path, dirtyTiles, 15)
+		print path
+		actions = self.pathToActions(grid, path)
+
+		return actions
 
 
 	def iddfs(self, path, dirtyTiles, depthMaxLimit):
@@ -64,7 +68,36 @@ class IDDFSController(Controller):
 					return pathRet
 
 		return None
-			
+
+
+	def pathToActions(self, grid, path):
+		grid = [ row[:] for row in grid ]
+		if path == None:
+			return [IVCAction.ABORT]
+
+		pos = path[0]
+		actions = []
+
+		for tile in path:
+
+			disp = [tile[0]-pos[0], tile[1]-pos[1]]
+
+			if disp[0] == -1:
+				actions.append(IVCAction.MOVE_UP)
+			if disp[0] == 1:
+				actions.append(IVCAction.MOVE_DOWN)
+			if disp[1] == -1:
+				actions.append(IVCAction.MOVE_LEFT)
+			if disp[1] == 1:
+				actions.append(IVCAction.MOVE_RIGHT)
+
+			if grid[tile[0]][tile[1]] == TileState.DIRTY:
+				actions.append(IVCAction.SUCK)
+				grid[tile[0]][tile[1]] = TileState.CLEAN
+
+			pos = tile
+
+		return actions
 
 
 	def goalTest(self, path, dirtyTiles):
