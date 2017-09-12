@@ -1,6 +1,7 @@
 #! /usr/bin/python2
 
 from env import Env, TileState
+import time
 
 class IVCAction(object):
 	ABORT = -1
@@ -37,7 +38,9 @@ class IVC(object):
 		self.controller = controller
 		self.visibility = visibility
 
-		self.cost = 0
+		self.stats = {}
+		self.stats["cost"] = 0
+		self.stats["time"] = 0
 		self.actionsHistory = []
 
 		self.memInit(self.env)
@@ -74,7 +77,7 @@ class IVC(object):
 	def actMoveUp(self, env, pos):
 		if pos[0]-1 in xrange(0,env.dim[0]):
 			pos[0] -= 1
-			self.cost += IVCActionCost.MOVE_UP
+			self.stats["cost"] += IVCActionCost.MOVE_UP
 		else:
 			raise IndexError("IVC:"+self.name+" cannot climb walls")
 
@@ -82,7 +85,7 @@ class IVC(object):
 	def actMoveDown(self, env, pos):
 		if pos[0]+1 in xrange(0,env.dim[0]):
 			pos[0] += 1
-			self.cost += IVCActionCost.MOVE_DOWN
+			self.stats["cost"] += IVCActionCost.MOVE_DOWN
 		else:
 			raise IndexError("IVC:"+self.name+" cannot climb walls")
 
@@ -90,7 +93,7 @@ class IVC(object):
 	def actMoveLeft(self, env, pos):
 		if pos[1]-1 in xrange(0,env.dim[1]):
 			pos[1] -= 1
-			self.cost += IVCActionCost.MOVE_LEFT
+			self.stats["cost"] += IVCActionCost.MOVE_LEFT
 		else:
 			raise IndexError("IVC:"+self.name+" cannot climb walls")
 
@@ -98,13 +101,13 @@ class IVC(object):
 	def actMoveRight(self, env, pos):
 		if pos[1]+1 in xrange(0,env.dim[1]):
 			pos[1] += 1
-			self.cost += IVCActionCost.MOVE_RIGHT
+			self.stats["cost"] += IVCActionCost.MOVE_RIGHT
 		else:
 			raise IndexError("IVC:"+self.name+" cannot climb walls")
 
 
 	def actSuck(self, env, pos):
-		self.cost += IVCActionCost.SUCK
+		self.stats["cost"] += IVCActionCost.SUCK
 		env.dirtRemove(pos)
 
 
@@ -131,5 +134,9 @@ class IVC(object):
 
 
 	def run(self):
+
+		tStart = time.clock()
 		while self.goalTest() == False:
 			self.act(self.controller.output(self.mem, self.pos))
+		tStop = time.clock()
+		self.stats["time"] = tStop - tStart

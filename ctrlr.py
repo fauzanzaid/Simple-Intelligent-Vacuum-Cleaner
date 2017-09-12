@@ -8,6 +8,7 @@ class Controller(object):
 		self.dim = dim[:]
 		self.homes = [home[:] for home in  homes]
 		self.homeDist = None
+		self.stats = {}
 		self.homeDistCalc(self.dim)
 
 

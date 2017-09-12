@@ -9,6 +9,8 @@ class IDDFSController(Controller):
 	def __init__(self, dim, homes):
 		super(IDDFSController, self).__init__(dim, homes)
 		self.depthMaxLimit = 100
+		self.stats["nodesGen"] = 0
+		self.stats["maxStackDepth"] = 0
 
 	def output(self, grid, pos):
 
@@ -23,19 +25,22 @@ class IDDFSController(Controller):
 		path = [pos]
 		path = self.iddfs(path, dirtyTiles, self.depthMaxLimit)
 		actions = self.pathToActions(grid, path)
+		actions += self.actionsToHome(path[-1])
 
-		return actions + self.actionsToHome(path[-1])
+		return actions
 
 
 	def iddfs(self, path, dirtyTiles, depthMaxLimit):
 		for depthMax in range(depthMaxLimit):
 			pathRet = self.dldfs(path,dirtyTiles,0,depthMax)
 			if pathRet != None:
+				self.stats["maxStackDepth"] = depthMax
 				return pathRet
 		return None
 
 
 	def dldfs(self, path, dirtyTiles, depth, depthMax):
+		self.stats["nodesGen"] += 1
 		if depth > depthMax:
 			return None
 		elif self.goalTest(path, dirtyTiles) == True:
