@@ -4,10 +4,10 @@ from ctrlr import Controller
 from env import TileState
 from ivc import IVCAction
 
-class DFSController(Controller):
+class BestPathController(Controller):
 
 	def __init__(self, dim, homes):
-		super(DFSController, self).__init__(dim, homes)
+		super(BestPathController, self).__init__(dim, homes)
 
 	def output(self, grid, pos):
 		actions = []
