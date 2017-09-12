@@ -8,7 +8,7 @@ class IDDFSController(Controller):
 
 	def __init__(self, dim, homes):
 		super(IDDFSController, self).__init__(dim, homes)
-
+		self.depthMaxLimit = 100
 
 	def output(self, grid, pos):
 
@@ -21,7 +21,7 @@ class IDDFSController(Controller):
 					dirtyTiles.append([i,j])
 
 		path = [pos]
-		path = self.iddfs(path, dirtyTiles, 15)
+		path = self.iddfs(path, dirtyTiles, self.depthMaxLimit)
 		actions = self.pathToActions(grid, path)
 
 		return actions + self.actionsToHome(path[-1])
