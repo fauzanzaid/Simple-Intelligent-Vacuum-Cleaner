@@ -22,10 +22,9 @@ class IDDFSController(Controller):
 
 		path = [pos]
 		path = self.iddfs(path, dirtyTiles, 15)
-		print path
 		actions = self.pathToActions(grid, path)
 
-		return actions
+		return actions + self.actionsToHome(path[-1])
 
 
 	def iddfs(self, path, dirtyTiles, depthMaxLimit):
@@ -98,6 +97,36 @@ class IDDFSController(Controller):
 			pos = tile
 
 		return actions
+
+
+	def actionsToHome(self, pos):
+		minCost = float("inf")
+		minCostHome = None
+		for home in self.homes:
+			cost = self.costMoveCalc(pos, home)
+			if cost < minCost:
+				minCost = cost
+				minCostHome = home
+
+		actions = []
+		disp = [minCostHome[0]-pos[0], minCostHome[1]-pos[1]]
+
+		if disp[0] < 0:
+			for i in range(-disp[0]):
+				actions.append(IVCAction.MOVE_UP)
+		elif disp[0] > 0:
+			for i in range(disp[0]):
+				actions.append(IVCAction.MOVE_DOWN)
+
+		if disp[1] < 0:
+			for i in range(-disp[1]):
+				actions.append(IVCAction.MOVE_LEFT)
+		elif disp[1] > 0:
+			for i in range(disp[1]):
+				actions.append(IVCAction.MOVE_RIGHT)
+
+		return actions
+
 
 
 	def goalTest(self, path, dirtyTiles):
