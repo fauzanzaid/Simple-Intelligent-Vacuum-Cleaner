@@ -6,10 +6,10 @@ class Controller(object):
 		self.dim = dim[:]
 		self.homes = [home[:] for home in  homes]
 		self.homeDist = None
-		self.homeDistInit(self.dim)
+		self.homeDistCalc(self.dim)
 
 
-	def homeDistInit(self, grid):
+	def homeDistCalc(self, grid):
 		self.homeDist = [ [float("inf")]*self.dim[1] for i in xrange(self.dim[0]) ]
 
 		for i,row in enumerate(self.homeDist):
