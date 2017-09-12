@@ -26,6 +26,10 @@ class Controller(object):
 				self.homeDist[i][j] = minCost
 
 
+	def costMoveCalc(self, pos1, pos2):
+		return abs(pos1[0]-pos2[0]) + abs(pos1[1]-pos2[1])
+
+
 	def cleanTest(self, grid):
 		for row in grid:
 			for tile in row:
