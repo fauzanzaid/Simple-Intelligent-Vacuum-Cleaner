@@ -17,11 +17,14 @@ class GUI(object):
 		self.TILE_SPACING = 20
 		self.TILE_MARK_SIZE = 3
 		self.TILE_MARK_OFFSET = 5
-		self.TILE_MARK_CLEAN = (0.5,0.5,1)
+		self.TILE_MARK_CLEAN = (1,1,1)
 		self.TILE_MARK_DIRTY = (1,0.5,0.5)
 		
 		self.P1_OFFSET = 30
 		self.P1_LINESPACE = 15
+
+		self.envG1 = None
+		self.envG2 = None
 
 		turtle.setworldcoordinates(0,0,750,750)
 		turtle.ht()
@@ -71,3 +74,38 @@ class GUI(object):
 		text = "R"+str(idx)+" :\t"+str(val)
 		turtle.goto(cood[0]+self.P1_OFFSET, cood[1]-self.P1_OFFSET-(idx)*self.P1_LINESPACE)
 		turtle.write(text)
+
+
+	def drawG1(self, env):
+		self.drawGrid(self.G1_COOD, env.dim)
+		self.drawGridMark(self.G1_COOD, env.grid)
+
+
+	def updateG1(self, env):
+		self.drawGridMark(self.G1_COOD, env.grid)
+
+
+	def drawG1(self):
+		self.drawGrid(self.G1_COOD, self.envG1.dim)
+		self.drawGridMark(self.G1_COOD, self.envG1.grid)
+
+
+	def updateG1(self):
+		self.drawGridMark(self.G1_COOD, self.envG1.grid)
+
+
+	def drawG2(self):
+		self.drawGrid(self.G2_COOD, self.envG2.dim)
+		self.drawGridMark(self.G2_COOD, self.envG2.grid)
+
+
+	def updateG2(self):
+		self.drawGridMark(self.G2_COOD, self.envG2.grid)
+
+
+	def setG1env(self, env):
+		self.envG1 = env
+
+
+	def setG2env(self, env):
+		self.envG2 = env
