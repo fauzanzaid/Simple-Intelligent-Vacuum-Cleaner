@@ -38,6 +38,9 @@ class GUI(object):
 		self.ivcG1 = None
 		self.ivcG2 = None
 
+		self.scaleG3 = None
+		self.scaleG4 = None
+
 		turtle.title("Intelligent Vacuum Cleaner")
 		turtle.setup(width = 750+60, height = 500+60)
 		turtle.setworldcoordinates(0-30,125-30,750+30,625+30)
@@ -127,7 +130,7 @@ class GUI(object):
 		turtle.pencolor(oldColor)
 
 
-	def drawGraph(self, cood, size, series, color):
+	def drawGraph(self, cood, size, series, scale, color):
 		turtle.goto(cood[0], cood[1]-size[1])
 		oldColor = turtle.pencolor()
 
@@ -145,7 +148,7 @@ class GUI(object):
 		turtle.pd()
 		turtle.pencolor(color)
 		for i,v in enumerate(series):
-			y = float(v)/(max(series))*size[1] + cood[1]-size[1]
+			y = float(v)*scale + cood[1]-size[1]
 			x = float(i)/len(series)*size[0] + cood[0]
 			turtle.goto(x,y)
 		turtle.pu()
@@ -205,8 +208,12 @@ class GUI(object):
 
 
 	def drawG3(self, series, color):
-		self.drawGraph(self.G3_COOD, self.G3_SIZE, series, color)
+		if self.scaleG3 == None:
+			self.scaleG3 = self.G3_SIZE[1]/float(max(series))
+		self.drawGraph(self.G3_COOD, self.G3_SIZE, series, self.scaleG3, color)
 
 
 	def drawG4(self, series, color):
-		self.drawGraph(self.G4_COOD, self.G4_SIZE, series, color)
+		if self.scaleG4 == None:
+			self.scaleG4 = self.G4_SIZE[1]/float(max(series))
+		self.drawGraph(self.G4_COOD, self.G4_SIZE, series, self.scaleG4, color)
