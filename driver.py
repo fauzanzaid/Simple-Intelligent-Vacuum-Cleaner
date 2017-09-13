@@ -13,6 +13,7 @@ from config import Config
 
 
 def printHelp():
+	print ""
 	print "Enter number corresponding to each option"
 	print "[1] Display the environment"
 	print "[2] Find path using T1"
@@ -22,7 +23,7 @@ def printHelp():
 
 
 
-analysis = {i:"Not computed" for i in xrange(12)}
+analysis = {i:"Not computed" for i in xrange(1,12)}
 
 
 room1 = Env(Config.envSizeT1, Config.envDirtT1)

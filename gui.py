@@ -32,7 +32,9 @@ class GUI(object):
 		self.envG1 = None
 		self.envG2 = None
 
-		turtle.setworldcoordinates(0,0,750,750)
+		turtle.title("Intelligent Vacuum Cleaner")
+		turtle.setup(width = 750+60, height = 500+60)
+		turtle.setworldcoordinates(0-30,125-30,750+30,625+30)
 		turtle.ht()
 		turtle.pu()
 		turtle.speed(0)
