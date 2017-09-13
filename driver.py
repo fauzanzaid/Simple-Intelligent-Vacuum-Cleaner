@@ -10,7 +10,7 @@ from bestpathctrlr import BestPathController
 
 from config import Config
 
-analysis = {i:0 for i in xrange(12)}
+analysis = {i:"" for i in xrange(12)}
 
 
 room1 = Env(Config.envSizeT1, Config.envDirtT1)
@@ -41,11 +41,17 @@ mygui.drawG2()
 
 
 vac1.run()
+analysis[1] = cont1.stats["nodesGen"]
+analysis[3] = cont1.stats["maxStackDepth"]
+analysis[4] = vac1.stats["cost"]
+analysis[5] = vac1.stats["time"]
 mygui.updateG1()
 mygui.updatePathG1(vac1.start, vac1.actionsHistory, Config.pathColorG1)
 
 vac2a.run()
 vac2b.run()
+analysis[8] = vac2a.stats["cost"] + vac2b.stats["cost"]
+analysis[9] = vac2a.stats["time"] + vac2b.stats["time"]
 mygui.updateG2()
 mygui.updatePathG2(vac2a.start, vac2a.actionsHistory, Config.pathColorG2a)
 mygui.updatePathG2(vac2b.start, vac2b.actionsHistory, Config.pathColorG2b)
@@ -71,6 +77,32 @@ for i in xrange(5,105, 5):
 	vac.run()
 	timeVsDirtSizeH1.append(vac.stats["time"])
 mygui.drawG4(timeVsDirtSizeH1, Config.pathColorG2a)
+
+
+timeAvT1 = 0
+for i in xrange(10):
+	room = Env(Config.envSizeT1, Config.envDirtT1)
+	cont = IDDFSController(room.dim, Config.homesT1)
+	vac = IVC("Roomba", room, [0,0], cont, IVCVisibility.ALL)
+	vac.run()
+	timeAvT1 += vac.stats["time"]
+timeAvT1 /= 10.0
+
+timeAvT2 = 0
+for i in xrange(10):
+	room = Env(Config.envSizeT2, Config.envDirtT2)
+	cont = H1Controller(room.dim, Config.homesT2)
+	vac = IVC("Roomba", room, [0,0], cont, IVCVisibility.ONE)
+	vac.run()
+	timeAvT2 = vac.stats["time"]
+timeAvT2 /= 10.0
+
+analysis[11] = timeAvT1+timeAvT2
+
+
+for k in analysis:
+	mygui.drawPartition1Text(k,analysis[k])
+
 
 
 
