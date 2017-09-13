@@ -2,6 +2,7 @@
 
 import turtle
 from env import TileState
+from ivc import IVCAction
 
 class GUI(object):
 	"""This class implements the gui in turtle"""
@@ -22,6 +23,8 @@ class GUI(object):
 		
 		self.P1_OFFSET = 30
 		self.P1_LINESPACE = 15
+
+		self.G1_PATHCOLOR = ()
 
 		self.envG1 = None
 		self.envG2 = None
@@ -69,6 +72,30 @@ class GUI(object):
 				self.drawTileMark([x,y], state)
 
 
+	def drawGridPath(self, cood, pos, actions, color):
+		turtle.goto(cood[0]+pos[1]*self.TILE_SPACING, cood[1]-pos[0]*self.TILE_SPACING)
+		oldColor = turtle.pencolor()
+		turtle.pencolor(color)
+		turtle.pd()
+
+		for action in actions:
+			if action == IVCAction.MOVE_RIGHT:
+				turtle.seth(0)
+				turtle.fd(self.TILE_SPACING)
+			if action == IVCAction.MOVE_UP:
+				turtle.seth(90)
+				turtle.fd(self.TILE_SPACING)
+			if action == IVCAction.MOVE_LEFT:
+				turtle.seth(180)
+				turtle.fd(self.TILE_SPACING)
+			if action == IVCAction.MOVE_DOWN:
+				turtle.seth(270)
+				turtle.fd(self.TILE_SPACING)
+
+		turtle.pu()
+		turtle.pencolor(oldColor)
+
+
 	def drawPartition1Text(self, idx, val):
 		cood = self.P1_COOD
 		text = "R"+str(idx)+" :\t"+str(val)
@@ -85,6 +112,10 @@ class GUI(object):
 		self.drawGridMark(self.G1_COOD, self.envG1.grid)
 
 
+	def updatePathG1(self, start, actions, color):
+		self.drawGridPath(self.G1_COOD, start, actions, color)
+
+
 	def drawG2(self):
 		self.drawGrid(self.G2_COOD, self.envG2.dim)
 		self.drawGridMark(self.G2_COOD, self.envG2.grid)
@@ -92,6 +123,10 @@ class GUI(object):
 
 	def updateG2(self):
 		self.drawGridMark(self.G2_COOD, self.envG2.grid)
+
+
+	def updatePathG2(self, start, actions, color):
+		self.drawGridPath(self.G2_COOD, start, actions, color)
 
 
 	def setG1env(self, env):
