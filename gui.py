@@ -76,15 +76,6 @@ class GUI(object):
 		turtle.write(text)
 
 
-	def drawG1(self, env):
-		self.drawGrid(self.G1_COOD, env.dim)
-		self.drawGridMark(self.G1_COOD, env.grid)
-
-
-	def updateG1(self, env):
-		self.drawGridMark(self.G1_COOD, env.grid)
-
-
 	def drawG1(self):
 		self.drawGrid(self.G1_COOD, self.envG1.dim)
 		self.drawGridMark(self.G1_COOD, self.envG1.grid)
