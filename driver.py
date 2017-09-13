@@ -6,6 +6,7 @@ from gui import GUI
 
 from iddfsctrlr import IDDFSController
 from h1ctrlr import H1Controller
+from h2ctrlr import H2Controller
 from bestpathctrlr import BestPathController
 
 from config import Config
@@ -33,7 +34,7 @@ room2b.grid = [r[:] for r in room2a.grid]	# Make environment same
 
 cont1 = IDDFSController(room1.dim, Config.homesT1)
 cont2a = H1Controller(room2a.dim, Config.homesT2)
-cont2b = H1Controller(room2b.dim, Config.homesT2)
+cont2b = H2Controller(room2b.dim, Config.homesT2)
 
 vac1 = IVC("Roomba1", room1, [0,0], cont1, IVCVisibility.ALL)
 vac2a = IVC("Roomba2a", room2a, [0,0], cont2a, IVCVisibility.ONE)
@@ -96,6 +97,15 @@ while True:
 			timeVsRoomSizeH1.append(vac.stats["time"])
 		mygui.drawG3(timeVsRoomSizeH1, Config.pathColorG2a)
 
+		timeVsRoomSizeH2 = []
+		for i in xrange(3,21):
+			room = Env([i,i], Config.envDirtT2)
+			cont = H2Controller(room.dim, [[0,0],[0,i-1],[i-1,0],[i-1,i-1]])
+			vac = IVC("Roomba", room, [0,0], cont, IVCVisibility.ONE)
+			vac.run()
+			timeVsRoomSizeH2.append(vac.stats["time"])
+		mygui.drawG3(timeVsRoomSizeH2, Config.pathColorG2b)
+
 		timeVsDirtSizeH1 = []
 		for i in xrange(5,105, 5):
 			room = Env([10,10], i/100.0)
@@ -104,6 +114,15 @@ while True:
 			vac.run()
 			timeVsDirtSizeH1.append(vac.stats["time"])
 		mygui.drawG4(timeVsDirtSizeH1, Config.pathColorG2a)
+
+		# timeVsDirtSizeH2 = []
+		# for i in xrange(5,105, 5):
+		# 	room = Env([10,10], i/100.0)
+		# 	cont = H2Controller(room.dim, [[0,0],[0,9],[9,0],[9,9]])
+		# 	vac = IVC("Roomba", room, [0,0], cont, IVCVisibility.ONE)
+		# 	vac.run()
+		# 	timeVsDirtSizeH2.append(vac.stats["time"])
+		# mygui.drawG4(timeVsDirtSizeH2, Config.pathColorG2b)
 
 		timeAvT1 = 0
 		for i in xrange(10):
