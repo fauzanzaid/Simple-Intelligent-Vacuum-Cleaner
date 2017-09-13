@@ -10,7 +10,7 @@ from bestpathctrlr import BestPathController
 
 from config import Config
 
-
+analysis = {i:0 for i in xrange(12)}
 
 
 room1 = Env(Config.envSizeT1, Config.envDirtT1)
@@ -60,6 +60,7 @@ for i in xrange(3,21):
 	vac = IVC("Roomba", room, [0,0], cont, IVCVisibility.ONE)
 	vac.run()
 	timeVsRoomSizeH1.append(vac.stats["time"])
+mygui.drawG3(timeVsRoomSizeH1, Config.pathColorG2a)
 
 
 timeVsDirtSizeH1 = []
@@ -69,6 +70,8 @@ for i in xrange(5,105, 5):
 	vac = IVC("Roomba", room, [0,0], cont, IVCVisibility.ONE)
 	vac.run()
 	timeVsDirtSizeH1.append(vac.stats["time"])
+mygui.drawG4(timeVsDirtSizeH1, Config.pathColorG2a)
+
 
 
 raw_input()
