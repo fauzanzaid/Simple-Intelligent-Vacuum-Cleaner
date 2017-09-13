@@ -20,6 +20,10 @@ class GUI(object):
 		self.TILE_MARK_OFFSET = 5
 		self.TILE_MARK_CLEAN = (1,1,1)
 		self.TILE_MARK_DIRTY = (1,0.5,0.5)
+
+		self.HOME_MARK_SIZE = 4
+		self.HOME_MARK_COL1 = (0,1,1)
+		self.HOME_MARK_COL2 = (0.5,1,1)
 		
 		self.P1_OFFSET = 30
 		self.P1_LINESPACE = 15
@@ -31,6 +35,8 @@ class GUI(object):
 
 		self.envG1 = None
 		self.envG2 = None
+		self.ivcG1 = None
+		self.ivcG2 = None
 
 		turtle.title("Intelligent Vacuum Cleaner")
 		turtle.setup(width = 750+60, height = 500+60)
@@ -77,11 +83,25 @@ class GUI(object):
 				self.drawTileMark([x,y], state)
 
 
+	def drawHomeMark(self, cood, homes):
+		for home in homes:
+			x = cood[0] + home[1]*self.TILE_SPACING
+			y = cood[1] - home[0]*self.TILE_SPACING
+			turtle.goto(x+self.TILE_MARK_OFFSET, y+self.TILE_MARK_OFFSET)
+			turtle.pd()
+			turtle.dot(self.HOME_MARK_SIZE, self.HOME_MARK_COL1)
+			turtle.dot(self.HOME_MARK_SIZE/2.0, self.HOME_MARK_COL2)
+			turtle.pu()
+
+
 	def drawGridPath(self, cood, pos, actions, color):
 		turtle.goto(cood[0]+pos[1]*self.TILE_SPACING, cood[1]-pos[0]*self.TILE_SPACING)
 		oldColor = turtle.pencolor()
 		turtle.pencolor(color)
 		turtle.pd()
+		turtle.st()
+		turtle.speed(10)
+		turtle.delay(1)
 
 		for action in actions:
 			if action == IVCAction.MOVE_RIGHT:
@@ -99,6 +119,10 @@ class GUI(object):
 			if action == IVCAction.SUCK:
 				turtle.dot(self.TILE_MARK_SIZE)
 
+		turtle.stamp()
+		turtle.delay(0)
+		turtle.speed(0)
+		turtle.ht()
 		turtle.pu()
 		turtle.pencolor(oldColor)
 
@@ -139,6 +163,7 @@ class GUI(object):
 	def drawG1(self):
 		self.drawGrid(self.G1_COOD, self.envG1.dim)
 		self.drawGridMark(self.G1_COOD, self.envG1.grid)
+		self.drawHomeMark(self.G1_COOD, self.ivcG1.controller.homes)
 
 
 	def updateG1(self):
@@ -152,6 +177,7 @@ class GUI(object):
 	def drawG2(self):
 		self.drawGrid(self.G2_COOD, self.envG2.dim)
 		self.drawGridMark(self.G2_COOD, self.envG2.grid)
+		self.drawHomeMark(self.G2_COOD, self.ivcG2.controller.homes)
 
 
 	def updateG2(self):
@@ -168,6 +194,14 @@ class GUI(object):
 
 	def setG2env(self, env):
 		self.envG2 = env
+
+
+	def setG1ivc(self, ivc):
+		self.ivcG1 = ivc
+
+
+	def setG2ivc(self, ivc):
+		self.ivcG2 = ivc
 
 
 	def drawG3(self, series, color):

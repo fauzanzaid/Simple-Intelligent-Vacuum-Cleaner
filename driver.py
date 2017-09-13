@@ -45,7 +45,9 @@ vac2b = IVC("Roomba2b", room2b, [0,0], cont2b, IVCVisibility.ONE)
 mygui = GUI()
 
 mygui.setG1env(room1)
+mygui.setG1ivc(vac1)
 mygui.setG2env(room2a)
+mygui.setG2ivc(vac2a)
 
 
 
