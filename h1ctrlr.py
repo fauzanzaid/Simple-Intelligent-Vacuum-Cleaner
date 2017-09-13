@@ -9,6 +9,7 @@ class H1Controller(Controller):
 
 	def __init__(self, dim, homes):
 		super(H1Controller, self).__init__(dim, homes)
+		self.stats["nodesGen"] = 0
 
 
 	def output(self, grid, pos):
@@ -29,6 +30,7 @@ class H1Controller(Controller):
 				r = pos[0]+i-1
 				c = pos[1]+j-1
 				if r in xrange(self.dim[0]) and c in xrange(self.dim[1]):
+					self.stats["nodesGen"] += 1
 					if grid[r][c] == TileState.DIRTY:
 						mat[i][j] = 0
 					elif grid[r][c] == TileState.UNKNOWN:

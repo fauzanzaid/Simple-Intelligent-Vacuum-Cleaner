@@ -79,6 +79,7 @@ while True:
 	elif opt == "3":
 		vac2a.run()
 		vac2b.run()
+		analysis[6] = str(cont2a.stats["nodesGen"])+", "+str(cont2b.stats["nodesGen"])
 		analysis[8] = vac2a.stats["cost"] + vac2b.stats["cost"]
 		analysis[9] = vac2a.stats["time"] + vac2b.stats["time"]
 		mygui.updateG2()
