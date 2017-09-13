@@ -10,7 +10,7 @@ class Config(object):
 	]
 	
 	envSizeT2 = [10,10]
-	envDirtT2 = 0.3
+	envDirtT2 = 0.05
 	homesT2 = [
 		[0,0],
 		[0,envSizeT2[1]-1],
@@ -24,4 +24,4 @@ class Config(object):
 
 	pathColorG1 = (1,0,0)
 	pathColorG2a = (0,0,1)
-	pathColorG2b = (0,1,0)
+	pathColorG2b = (0,0.7,0)
