@@ -91,6 +91,8 @@ class GUI(object):
 			if action == IVCAction.MOVE_DOWN:
 				turtle.seth(270)
 				turtle.fd(self.TILE_SPACING)
+			if action == IVCAction.SUCK:
+				turtle.dot(self.TILE_MARK_SIZE)
 
 		turtle.pu()
 		turtle.pencolor(oldColor)
