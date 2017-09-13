@@ -7,8 +7,11 @@ class GUI(object):
 	"""This class implements the gui in turtle"""
 
 	def __init__(self):
-		turtle.pu()
-		# turtle.setworldcoordinates()
+		self.P1_COOD = [0, 625]
+		self.G1_COOD = [250, 625]
+		self.G2_COOD = [500, 625]
+		self.G3_COOD = [250, 375]
+		self.G4_COOD = [250, 375]
 
 		self.TILE_SIZE = 20
 		self.TILE_SPACING = 20
@@ -16,6 +19,15 @@ class GUI(object):
 		self.TILE_MARK_OFFSET = 5
 		self.TILE_MARK_CLEAN = (0.5,0.5,1)
 		self.TILE_MARK_DIRTY = (1,0.5,0.5)
+		
+		self.P1_OFFSET = 30
+		self.P1_LINESPACE = 15
+
+		turtle.setworldcoordinates(0,0,750,750)
+		turtle.ht()
+		turtle.pu()
+		turtle.speed(0)
+		turtle.delay(0)
 
 
 	def drawTile(self, cood):
@@ -52,3 +64,10 @@ class GUI(object):
 				x = cood[0] + j*self.TILE_SPACING
 				y = cood[1] - i*self.TILE_SPACING
 				self.drawTileMark([x,y], state)
+
+
+	def drawPartition1Text(self, idx, val):
+		cood = self.P1_COOD
+		text = "R"+str(idx)+" :\t"+str(val)
+		turtle.goto(cood[0]+self.P1_OFFSET, cood[1]-self.P1_OFFSET-(idx)*self.P1_LINESPACE)
+		turtle.write(text)
