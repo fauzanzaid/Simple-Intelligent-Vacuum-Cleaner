@@ -34,6 +34,7 @@ class IVC(object):
 	def __init__(self, name, env, pos, controller, visibility):
 		self.name = name
 		self.env = env
+		self.start = pos[:]
 		self.pos = pos[:]
 		self.controller = controller
 		self.visibility = visibility
