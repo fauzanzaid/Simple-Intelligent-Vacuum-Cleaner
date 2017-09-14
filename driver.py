@@ -71,8 +71,8 @@ while True:
 		analysis[3] = cont1.stats["maxStackDepth"]
 		analysis[4] = vac1.stats["cost"]
 		analysis[5] = str(vac1.stats["time"])+"s"
-		mygui.updateG1()
-		mygui.updatePathG1(vac1.start, vac1.actionsHistory, Config.pathColorG1)
+		# mygui.updateG1()
+		mygui.updatePathG1(vac1.start, vac1.actionsHistory, Config.pathColorG1, 0)
 
 
 
@@ -82,7 +82,7 @@ while True:
 		analysis[6] = "H1:"+str(cont2a.stats["nodesGen"])+", H2:"+str(cont2b.stats["nodesGen"])
 		analysis[8] = "H1:"+str(vac2a.stats["cost"])+", H2:"+str(vac2b.stats["cost"])
 		analysis[9] = "H1:"+str(vac2a.stats["time"])+"s, H2:"+str(vac2b.stats["time"])+"s"
-		mygui.updateG2()
+		# mygui.updateG2()
 		mygui.updatePathG2(vac2a.start, vac2a.actionsHistory, Config.pathColorG2a, -1)
 		mygui.updatePathG2(vac2b.start, vac2b.actionsHistory, Config.pathColorG2b, 1)
 

@@ -99,8 +99,8 @@ class GUI(object):
 			turtle.pu()
 
 
-	def drawGridPath(self, cood, pos, actions, color):
-		turtle.goto(cood[0]+pos[1]*self.TILE_SPACING, cood[1]-pos[0]*self.TILE_SPACING)
+	def drawGridPath(self, cood, pos, actions, color, offset):
+		turtle.goto(cood[0]+pos[1]*self.TILE_SPACING+2*offset, cood[1]-pos[0]*self.TILE_SPACING+2*offset)
 		oldColor = turtle.pencolor()
 		turtle.pencolor(color)
 		turtle.pd()
@@ -123,6 +123,25 @@ class GUI(object):
 				turtle.fd(self.TILE_SPACING)
 			if action == IVCAction.SUCK:
 				turtle.dot(self.TILE_MARK_SIZE)
+				
+				turtle.pu()
+				oldPos = turtle.pos()
+				oldH = turtle.heading()
+
+				turtle.seth(270)
+				turtle.fd(2*offset+self.TILE_MARK_OFFSET)
+				turtle.seth(180)
+				turtle.fd(2*offset+self.TILE_MARK_OFFSET)
+
+				turtle.pd()
+				turtle.dot(self.TILE_MARK_SIZE, self.TILE_MARK_CLEAN)
+				turtle.pu()
+
+				turtle.goto(oldPos)
+				turtle.seth(oldH)
+				turtle.pd()
+
+
 
 		turtle.stamp()
 		turtle.delay(0)
@@ -175,8 +194,8 @@ class GUI(object):
 		self.drawGridMark(self.G1_COOD, self.envG1.grid)
 
 
-	def updatePathG1(self, start, actions, color):
-		self.drawGridPath(self.G1_COOD, start, actions, color)
+	def updatePathG1(self, start, actions, color, offset):
+		self.drawGridPath(self.G1_COOD, start, actions, color, offset)
 
 
 	def drawG2(self):
@@ -190,8 +209,7 @@ class GUI(object):
 
 
 	def updatePathG2(self, start, actions, color, offset):
-		cood = [i+2*offset for i in self.G2_COOD]
-		self.drawGridPath(cood, start, actions, color)
+		self.drawGridPath(self.G2_COOD, start, actions, color, offset)
 
 
 	def setG1env(self, env):
