@@ -123,7 +123,7 @@ class GUI(object):
 				turtle.fd(self.TILE_SPACING)
 			if action == IVCAction.SUCK:
 				turtle.dot(self.TILE_MARK_SIZE)
-				
+
 				turtle.pu()
 				oldPos = turtle.pos()
 				oldH = turtle.heading()
