@@ -70,7 +70,7 @@ while True:
 		analysis[1] = cont1.stats["nodesGen"]
 		analysis[3] = cont1.stats["maxStackDepth"]
 		analysis[4] = vac1.stats["cost"]
-		analysis[5] = vac1.stats["time"]
+		analysis[5] = str(vac1.stats["time"])+"s"
 		mygui.updateG1()
 		mygui.updatePathG1(vac1.start, vac1.actionsHistory, Config.pathColorG1)
 
@@ -79,12 +79,12 @@ while True:
 	elif opt == "3":
 		vac2a.run()
 		vac2b.run()
-		analysis[6] = str(cont2a.stats["nodesGen"])+", "+str(cont2b.stats["nodesGen"])
-		analysis[8] = vac2a.stats["cost"] + vac2b.stats["cost"]
-		analysis[9] = vac2a.stats["time"] + vac2b.stats["time"]
+		analysis[6] = "H1:"+str(cont2a.stats["nodesGen"])+", H2:"+str(cont2b.stats["nodesGen"])
+		analysis[8] = "H1:"+str(vac2a.stats["cost"])+", H2:"+str(vac2b.stats["cost"])
+		analysis[9] = "H1:"+str(vac2a.stats["time"])+"s, H2:"+str(vac2b.stats["time"])+"s"
 		mygui.updateG2()
-		mygui.updatePathG2(vac2a.start, vac2a.actionsHistory, Config.pathColorG2a)
-		mygui.updatePathG2(vac2b.start, vac2b.actionsHistory, Config.pathColorG2b)
+		mygui.updatePathG2(vac2a.start, vac2a.actionsHistory, Config.pathColorG2a, -1)
+		mygui.updatePathG2(vac2b.start, vac2b.actionsHistory, Config.pathColorG2b, 1)
 
 
 
@@ -125,25 +125,34 @@ while True:
 		# 	timeVsDirtSizeH2.append(vac.stats["time"])
 		# mygui.drawG4(timeVsDirtSizeH2, Config.pathColorG2b)
 
-		timeAvT1 = 0
+		costAvT1 = 0
 		for i in xrange(10):
 			room = Env(Config.envSizeT1, Config.envDirtT1)
 			cont = IDDFSController(room.dim, Config.homesT1)
 			vac = IVC("Roomba", room, [0,0], cont, IVCVisibility.ALL)
 			vac.run()
-			timeAvT1 += vac.stats["time"]
-		timeAvT1 /= 10.0
+			costAvT1 += vac.stats["cost"]
+		costAvT1 /= 10.0
 
-		timeAvT2 = 0
+		costAvH1 = 0
 		for i in xrange(10):
 			room = Env(Config.envSizeT2, Config.envDirtT2)
 			cont = H1Controller(room.dim, Config.homesT2)
 			vac = IVC("Roomba", room, [0,0], cont, IVCVisibility.ONE)
 			vac.run()
-			timeAvT2 = vac.stats["time"]
-		timeAvT2 /= 10.0
+			costAvH1 += vac.stats["cost"]
+		costAvH1 /= 10.0
 
-		analysis[11] = timeAvT1+timeAvT2
+		costAvH2 = 0
+		for i in xrange(10):
+			room = Env(Config.envSizeT2, Config.envDirtT2)
+			cont = H2Controller(room.dim, Config.homesT2)
+			vac = IVC("Roomba", room, [0,0], cont, IVCVisibility.ONE)
+			vac.run()
+			costAvH2 += vac.stats["cost"]
+		costAvH2 /= 10.0
+
+		analysis[11] = "T1:"+str(costAvT1)+", H1:"+str(costAvH1)+", H2:"+str(costAvH2)
 
 		for k in analysis:
 			mygui.drawPartition1Text(k,analysis[k])

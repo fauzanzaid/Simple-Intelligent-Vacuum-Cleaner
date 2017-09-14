@@ -10,7 +10,7 @@ class Config(object):
 	]
 	
 	envSizeT2 = [10,10]
-	envDirtT2 = 0.05
+	envDirtT2 = 0.3
 	homesT2 = [
 		[0,0],
 		[0,envSizeT2[1]-1],

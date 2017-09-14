@@ -21,7 +21,8 @@ class GUI(object):
 		self.TILE_MARK_CLEAN = (1,1,1)
 		self.TILE_MARK_DIRTY = (1,0.5,0.5)
 
-		self.HOME_MARK_SIZE = 4
+		self.HOME_MARK_SIZE = 8
+		self.HOME_MARK_OFFSET = 0
 		self.HOME_MARK_COL1 = (0,1,1)
 		self.HOME_MARK_COL2 = (0.5,1,1)
 		
@@ -53,10 +54,12 @@ class GUI(object):
 	def drawTile(self, cood):
 		turtle.goto(cood[0]-self.TILE_SIZE/2.0, cood[1]-self.TILE_SIZE/2.0)
 		turtle.seth(90)
+		turtle.width(1.5)
 		turtle.pd()
 		for i in xrange(4):
 			turtle.fd(self.TILE_SIZE)
 			turtle.rt(90)
+		turtle.width(1)
 		turtle.pu()
 
 
@@ -90,10 +93,9 @@ class GUI(object):
 		for home in homes:
 			x = cood[0] + home[1]*self.TILE_SPACING
 			y = cood[1] - home[0]*self.TILE_SPACING
-			turtle.goto(x+self.TILE_MARK_OFFSET, y+self.TILE_MARK_OFFSET)
+			turtle.goto(x+self.HOME_MARK_OFFSET, y+self.HOME_MARK_OFFSET)
 			turtle.pd()
 			turtle.dot(self.HOME_MARK_SIZE, self.HOME_MARK_COL1)
-			turtle.dot(self.HOME_MARK_SIZE/2.0, self.HOME_MARK_COL2)
 			turtle.pu()
 
 
@@ -187,8 +189,9 @@ class GUI(object):
 		self.drawGridMark(self.G2_COOD, self.envG2.grid)
 
 
-	def updatePathG2(self, start, actions, color):
-		self.drawGridPath(self.G2_COOD, start, actions, color)
+	def updatePathG2(self, start, actions, color, offset):
+		cood = [i+2*offset for i in self.G2_COOD]
+		self.drawGridPath(cood, start, actions, color)
 
 
 	def setG1env(self, env):
